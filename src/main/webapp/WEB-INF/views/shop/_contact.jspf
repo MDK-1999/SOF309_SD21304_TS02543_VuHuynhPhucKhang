@@ -1,0 +1,24 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<section class="contact-section" id="contact">
+  <div class="contact-panel">
+    <div class="contact-col contact-brand">
+      <span class="eyebrow">GEARASTRAL</span>
+      <h2>Build đúng nhu cầu, hỗ trợ dài lâu</h2>
+      <p>Trung tâm tư vấn, lắp ráp và nâng cấp PC cho gaming, đồ họa, AI và công việc.</p>
+      <address>110 Trần Thánh Tông, Phường Tân Sơn<br />TP Hồ Chí Minh, Việt Nam</address>
+    </div>
+    <div class="contact-col">
+      <h3>Liên hệ tư vấn</h3>
+      <a class="contact-line" href="tel:0901552900"><span>Hotline</span><strong>0901 552 900</strong></a>
+      <a class="contact-line" href="mailto:contact@gearastral.vn"><span>Email</span><strong>contact@gearastral.vn</strong></a>
+      <div class="contact-line"><span>Giờ làm việc</span><strong>08:00 - 22:00 mỗi ngày</strong></div>
+      <a class="call-pill" href="tel:0901552900">Gọi kỹ thuật viên</a>
+    </div>
+    <div class="contact-col">
+      <h3>Dịch vụ chính</h3>
+      <ul class="service-list"><li>Tư vấn cấu hình theo ngân sách</li><li>Lắp ráp, đi dây và test ổn định</li><li>Nâng cấp CPU, GPU, RAM, SSD</li><li>Giao hàng và hỗ trợ sau bán</li></ul>
+      <div class="contact-tags"><span>CPU</span><span>GPU</span><span>RAM</span><span>SSD</span></div>
+    </div>
+  </div>
+  <div class="map-wrap"><iframe title="Bản đồ cửa hàng GearAstral" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1zMTEwIFRy4bqnbiBUaMOhbmggVMO0bmcsIFRQIEjhu5MgQ2jDrSBNaW5o!6i14"></iframe></div>
+</section>

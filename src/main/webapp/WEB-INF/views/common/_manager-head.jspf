@@ -1,0 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#172033" />
+<meta name="color-scheme" content="light" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<meta name="csrf-token" content="${csrfToken}" />
+<title>${empty pageTitle ? 'GearAstral Manager' : pageTitle}</title>
+<link rel="icon" href="${pageContext.request.contextPath}/images/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=7.2.0" />
+<script src="${pageContext.request.contextPath}/js/manager.js?v=7.0.0" defer></script>

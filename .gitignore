@@ -15,6 +15,10 @@ Thumbs.db
 
 # Java / Maven / Gradle
 target/
+/data/
+.env
+.env.*
+pcshop.properties
 build/
 bin/
 *.class

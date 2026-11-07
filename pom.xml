@@ -8,7 +8,7 @@
     <groupId>com.poly</groupId>
     <artifactId>sof309-assignment</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>SOF309 Assignment - AI Driven Test Automation</name>
 
@@ -18,6 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <selenium.version>4.20.0</selenium.version>
+        <jetty.http.port>8080</jetty.http.port>
     </properties>
 
     <dependencies>
@@ -41,11 +42,53 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- (Tùy chọn) Web Server & DB cũ của sinh viên có thể dán thêm vào đây -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.4.2.jre11</version>
+        </dependency>
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.10.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.5.252</version>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>GearAstral</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-maven-plugin</artifactId>
+                <version>12.0.40</version>
+                <configuration>
+                    <httpConnector>
+                        <host>127.0.0.1</host>
+                        <port>${jetty.http.port}</port>
+                    </httpConnector>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
             <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

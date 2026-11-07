@@ -1,0 +1,32 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<fmt:setLocale value="vi_VN" />
+<c:set var="metaDescription" value="${empty pageDescription ? 'GearAstral - Linh kiện chính hãng, giá rõ ràng, tự build PC và theo dõi đơn hàng.' : pageDescription}" />
+<c:set var="metaTitle" value="${empty pageTitle ? 'GearAstral' : pageTitle}" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#c8102e" />
+<meta name="color-scheme" content="light" />
+<meta name="description" content="${fn:escapeXml(metaDescription)}" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="csrf-token" content="${csrfToken}" />
+<title>${fn:escapeXml(metaTitle)}</title>
+<link rel="canonical" href="${fn:escapeXml(canonicalUrl)}" />
+<link rel="icon" href="${pageContext.request.contextPath}/images/favicon.svg" type="image/svg+xml" />
+<meta property="og:locale" content="vi_VN" />
+<meta property="og:site_name" content="GearAstral" />
+<meta property="og:type" content="${empty pageOgType ? 'website' : pageOgType}" />
+<meta property="og:title" content="${fn:escapeXml(metaTitle)}" />
+<meta property="og:description" content="${fn:escapeXml(metaDescription)}" />
+<meta property="og:url" content="${fn:escapeXml(canonicalUrl)}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="${fn:escapeXml(metaTitle)}" />
+<meta name="twitter:description" content="${fn:escapeXml(metaDescription)}" />
+<c:if test="${not empty pageOgImage}">
+  <meta property="og:image" content="${fn:escapeXml(pageOgImage)}" />
+  <meta name="twitter:image" content="${fn:escapeXml(pageOgImage)}" />
+</c:if>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/shop.css?v=7.2.0" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ComputerStore","name":"GearAstral","url":"${fn:escapeXml(canonicalUrl)}","telephone":"+84901552900","email":"contact@gearastral.vn","address":{"@type":"PostalAddress","streetAddress":"110 Trần Thánh Tông, Phường Tân Sơn","addressLocality":"TP Hồ Chí Minh","addressCountry":"VN"}}</script>

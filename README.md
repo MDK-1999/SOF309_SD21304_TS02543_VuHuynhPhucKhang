@@ -1,3 +1,37 @@
+# SOF309 Tuần 1 · GearAstral
+
+**Vũ Huỳnh Phúc Khang · TS02543 · SD21304**
+
+Bài Tuần 1 tích hợp mã nguồn GearAstral Java Servlet/JSP bản phục hồi 09/08/2026. Phạm vi nghiệm thu gồm đăng ký, đăng nhập, phân quyền và thêm, xem, sửa, ngừng bán sản phẩm.
+
+## Chạy GearAstral tại localhost:8080
+
+Cần JDK 17 và Maven. Từ thư mục chứa `pom.xml`, chạy trong PowerShell.
+
+```powershell
+$env:PCSHOP_DEMO = 'true'
+$env:PCSHOP_DEMO_STAFF_PASSWORD = 'GearDemo123!'
+$env:LOCAL_AI_ENABLED = 'false'
+mvn -q jetty:run
+```
+
+- Mở `http://localhost:8080/` để xem GearAstral. Dùng `/register` để tạo tài khoản khách hàng và `/login` để đăng nhập.
+- Đăng nhập bằng `demostaff` và mật khẩu demo đã đặt để vào `/staff/products`. Khi sửa sản phẩm, chọn **Ngừng bán** để ẩn khỏi cửa hàng hoặc **Đang bán** để khôi phục.
+- H2 demo tạo danh mục và một số linh kiện mẫu. Dữ liệu được làm mới mỗi lần khởi động ứng dụng. Dừng bằng `Ctrl+C`.
+- Nếu cổng 8080 đang được dùng, chạy `mvn "-Djetty.http.port=8081" -q jetty:run` và mở `http://localhost:8081/`.
+- Chạy `mvn clean package` để build `target/GearAstral.war` và chạy các test mẫu của template.
+
+Với SQL Server đã có schema GearAstral, đặt `PCSHOP_DEMO=false` và cấu hình `PCSHOP_DB_URL`, `PCSHOP_DB_USER`, `PCSHOP_DB_PASSWORD` ngoài repo. Bản nộp công khai dùng COD ở trang thanh toán. Lượt nghiệm thu dùng H2 demo.
+
+## Tài liệu Tuần 1
+
+- [Đặc tả](docs/SPECIFICATIONS.md)
+- [Kế hoạch kiểm thử](docs/TEST_PLAN.md)
+- [Bộ test case và kết quả chạy](docs/TEST_CASES.md)
+- [Nhật ký AI](docs/ai-logs/01_test_design_ai.md)
+
+---
+
 # SOF309: KIỂM THỬ NÂNG CAO CÙNG AI
 > **Master Template Assignment dành cho Sinh viên FPT Polytechnic**  
 > Giảng viên hướng dẫn: **ThS. Trần Quang Bình (binhtq7 - Thầy Mười Giáo)**  

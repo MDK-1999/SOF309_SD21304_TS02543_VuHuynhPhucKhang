@@ -1,0 +1,124 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<a class="skip-link" href="#mainContent">B&#7887; qua &#273;i&#7873;u h&#432;&#7899;ng</a>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-services">
+      <a href="tel:0901552900">Hotline 0901 552 900</a>
+      <span>Giao hàng toàn quốc</span>
+      <span>Bảo hành chính hãng</span>
+    </div>
+    <div class="topbar-links"><a href="${pageContext.request.contextPath}/customer/orders">Theo d&#245;i &#273;&#417;n h&#224;ng</a><a href="#contact">H&#7895; tr&#7907; k&#7929; thu&#7853;t</a></div>
+  </div>
+</div>
+
+<div class="store-header">
+<header class="shop-header">
+  <a class="logo" href="${pageContext.request.contextPath}/shop" aria-label="GearAstral - Trang sản phẩm">
+    <span class="logo-surface"><img class="gearastral-logo gearastral-logo--header" src="${pageContext.request.contextPath}/images/branding/gearastral-logo.png" alt="GearAstral" /></span>
+  </a>
+
+  <form class="search" action="${pageContext.request.contextPath}/shop" method="get" role="search">
+    <span class="search-prefix" aria-hidden="true">T&#204;M</span>
+    <label class="sr-only" for="globalSearch">T&#236;m ki&#7871;m s&#7843;n ph&#7849;m</label>
+    <input id="globalSearch" name="q" value="${fn:escapeXml(param.q)}"
+           placeholder="CPU, GPU, mainboard, m&#224;n h&#236;nh ho&#7863;c model..." autocomplete="off" />
+    <span class="search-hint" aria-hidden="true">ENTER</span>
+    <button type="submit">T&#236;m ki&#7871;m</button>
+  </form>
+
+  <div class="quick-links">
+    <a class="header-action build-action" href="${pageContext.request.contextPath}/pc-builder">
+      <span>Tự build PC</span><small>Kiểm tra tương thích</small>
+    </a>
+    <a class="header-action cart-action" href="${pageContext.request.contextPath}/cart">
+      <span>Giỏ hàng <b class="cart-count">${empty sessionScope.cart ? 0 : sessionScope.cart.size()}</b></span>
+      <small>Xem sản phẩm đã chọn</small>
+    </a>
+    <c:choose>
+      <c:when test="${not empty sessionScope.loginUser && sessionScope.loginUser.customer}">
+        <a class="header-action account-action" href="${pageContext.request.contextPath}/customer/orders">
+          <span><c:out value="${sessionScope.loginUser.fullName}" /></span><small>Theo dõi đơn hàng</small>
+        </a>
+      </c:when>
+      <c:when test="${not empty sessionScope.loginUser}">
+        <a class="header-action account-action" href="${pageContext.request.contextPath}/dashboard">
+          <span><c:out value="${sessionScope.loginUser.fullName}" /></span><small>Trang quản lý</small>
+        </a>
+      </c:when>
+      <c:otherwise>
+        <a class="header-action account-action" href="${pageContext.request.contextPath}/login">
+          <span>Đăng nhập</span><small>Tài khoản khách hàng</small>
+        </a>
+      </c:otherwise>
+    </c:choose>
+    <c:if test="${not empty sessionScope.loginUser}">
+      <form method="post" action="${pageContext.request.contextPath}/logout" class="logout-form">
+        <input type="hidden" name="_csrf" value="${csrfToken}" />
+        <button type="submit" class="logout-action">Đăng xuất</button>
+      </form>
+    </c:if>
+  </div>
+</header>
+</div>
+
+<nav class="nav" aria-label="Danh mục chính">
+  <div class="container">
+    <a class="nav-all" href="${pageContext.request.contextPath}/shop">Tất cả sản phẩm</a>
+    <a href="${pageContext.request.contextPath}/shop?catId=1">CPU</a>
+    <a href="${pageContext.request.contextPath}/shop?catId=4">Card đồ họa</a>
+    <a href="${pageContext.request.contextPath}/shop?catId=2">Mainboard</a>
+    <a href="${pageContext.request.contextPath}/shop?catId=3">RAM</a>
+    <a href="${pageContext.request.contextPath}/shop?catId=5">SSD</a>
+    <a href="${pageContext.request.contextPath}/shop?catId=6">Nguồn</a>
+    <a href="${pageContext.request.contextPath}/shop?catId=9">Màn hình</a>
+    <a href="${pageContext.request.contextPath}/pc-builder">Build PC</a>
+    <a href="#contact">Liên hệ</a>
+  </div>
+</nav>
+
+<div class="support-floating" aria-label="Hỗ trợ khách hàng">
+  <span class="chat-prompt" id="chatPrompt">Hỏi AI local cách build PC</span>
+  <button class="chat-toggle" id="chatLauncher" type="button" aria-label="Mở trợ lý AI local"
+          aria-controls="buildChat" aria-expanded="false">
+    <span class="chat-bot-face">PC</span>
+  </button>
+  <a class="call-toggle" href="tel:0901552900" aria-label="Gọi hotline 0901 552 900">
+    <span class="call-number">0901 552 900</span>
+    <span class="call-icon">Gọi</span>
+  </a>
+</div>
+
+<section class="build-chat" id="buildChat" data-context-path="${pageContext.request.contextPath}"
+         role="dialog" aria-labelledby="chatTitle" aria-live="polite">
+  <div class="chat-head">
+    <div class="chat-identity">
+      <span class="chat-avatar"><img src="${pageContext.request.contextPath}/images/branding/gearastral-mark.png" alt="" /></span>
+      <div>
+        <strong id="chatTitle">GearAstral</strong>
+      </div>
+    </div>
+    <button type="button" id="chatClose" aria-label="Đóng cửa sổ tư vấn">×</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="bot-msg">Bạn có thể chọn nhanh một tầm giá hoặc nhập câu hỏi riêng. AI local sẽ đọc catalog đang bán để tư vấn mà không gửi dữ liệu ra Internet.</div>
+  </div>
+  <div class="chat-suggest" aria-label="Cấu hình PC gợi ý theo tầm giá">
+    <button type="button" data-preset="office-31" data-question="Gợi ý ngẫu nhiên PC văn phòng khoảng 31 triệu" title="Bấm lại để đổi cấu hình cùng tầm giá">Văn phòng 31tr</button>
+    <button type="button" data-preset="gaming-fhd-44" data-question="Gợi ý ngẫu nhiên PC gaming Full HD khoảng 44 triệu" title="Bấm lại để đổi cấu hình cùng tầm giá">Gaming FHD 44tr</button>
+    <button type="button" data-preset="gaming-qhd-50" data-question="Gợi ý ngẫu nhiên PC gaming QHD khoảng 50 triệu" title="Bấm lại để đổi cấu hình cùng tầm giá">Gaming QHD 50tr</button>
+    <button type="button" data-preset="creator-65" data-question="Gợi ý ngẫu nhiên PC đồ họa khoảng 65 triệu" title="Bấm lại để đổi cấu hình cùng tầm giá">Đồ họa 65tr</button>
+    <button type="button" data-preset="gaming-4k-82" data-question="Gợi ý ngẫu nhiên PC gaming 4K khoảng 82 triệu" title="Bấm lại để đổi cấu hình cùng tầm giá">Gaming 4K 82tr</button>
+    <button type="button" data-preset="workstation-100" data-question="Gợi ý ngẫu nhiên workstation khoảng 100 triệu" title="Bấm lại để đổi cấu hình cùng tầm giá">Workstation 100tr</button>
+    <button type="button" data-preset="ai-135" data-question="Gợi ý ngẫu nhiên PC AI khoảng 135 triệu" title="Bấm lại để đổi cấu hình cùng tầm giá">AI 135tr</button>
+  </div>
+  <form class="chat-compose" id="localAiForm">
+    <label class="sr-only" for="localAiInput">Nhập câu hỏi về cấu hình PC</label>
+    <input id="localAiInput" name="message" type="text" maxlength="1200" autocomplete="off"
+           placeholder="VD: Build PC 35 triệu chơi game 2K..." />
+    <button id="localAiSend" type="submit">Gửi</button>
+  </form>
+  <a class="chat-phone" href="tel:0901552900">Cần gấp? Gọi kỹ thuật viên: <strong>0901 552 900</strong></a>
+</section>
+<script src="${pageContext.request.contextPath}/js/shop.js?v=7.1.0" defer></script>

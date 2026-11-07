@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+    <display-name>GearAstral Manager</display-name>
+
+    <filter>
+        <filter-name>Utf8Filter</filter-name>
+        <filter-class>com.pcshop.filter.Utf8Filter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Utf8Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>com.pcshop.filter.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.pcshop.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+        <cookie-config>
+            <http-only>true</http-only>
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/common/error404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/common/error500.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/views/common/error500.jsp</location>
+    </error-page>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.jspf</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <default-content-type>text/html;charset=UTF-8</default-content-type>
+        </jsp-property-group>
+    </jsp-config>
+</web-app>
