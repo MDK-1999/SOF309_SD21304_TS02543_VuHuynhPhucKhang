@@ -2,6 +2,8 @@ package com.pcshop.servlet;
 
 import com.pcshop.dao.UserDAO;
 import com.pcshop.model.User;
+import com.pcshop.service.RegistrationService;
+import com.pcshop.service.RegistrationService.DuplicateAccountException;
 import com.pcshop.util.InputValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +15,15 @@ import java.io.IOException;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final UserDAO dao = new UserDAO();
+    private final RegistrationService registration;
+
+    public RegisterServlet() {
+        this(new RegistrationService(new UserDAO()));
+    }
+
+    public RegisterServlet(RegistrationService registration) {
+        this.registration = registration;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,12 +42,8 @@ public class RegisterServlet extends HttpServlet {
 
         preserve(req, username, fullName, email, phone, address);
         String error = validate(username, password, confirm, fullName, email, phone);
-        if (error == null && dao.existsUsername(username)) error = "Tên đăng nhập đã được sử dụng.";
-        if (error == null && !email.isBlank() && dao.existsEmail(email)) error = "Email đã được sử dụng.";
         if (error != null) {
-            req.setAttribute("error", error);
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
+            showError(req, resp, HttpServletResponse.SC_BAD_REQUEST, error);
             return;
         }
 
@@ -48,12 +54,22 @@ public class RegisterServlet extends HttpServlet {
         user.setEmail(email);
         user.setPhone(phone);
         user.setAddress(address);
-        if (dao.register(user)) {
-            resp.sendRedirect(req.getContextPath() + "/login?success=registered");
+        try {
+            if (registration.register(user)) {
+                resp.sendRedirect(req.getContextPath() + "/login?success=registered");
+                return;
+            }
+        } catch (DuplicateAccountException duplicate) {
+            showError(req, resp, HttpServletResponse.SC_BAD_REQUEST, duplicate.getMessage());
             return;
         }
-        req.setAttribute("error", "Không thể tạo tài khoản lúc này. Vui lòng thử lại.");
-        resp.setStatus(HttpServletResponse.SC_CONFLICT);
+        showError(req, resp, HttpServletResponse.SC_CONFLICT, "Không thể tạo tài khoản lúc này. Vui lòng thử lại.");
+    }
+
+    private void showError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
+            throws ServletException, IOException {
+        req.setAttribute("error", message);
+        resp.setStatus(status);
         req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
     }
 

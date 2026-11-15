@@ -16,7 +16,15 @@ import java.util.Locale;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final UserDAO dao = new UserDAO();
+    private final UserDAO dao;
+
+    public LoginServlet() {
+        this(new UserDAO());
+    }
+
+    public LoginServlet(UserDAO dao) {
+        this.dao = dao;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

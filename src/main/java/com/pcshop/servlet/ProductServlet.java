@@ -16,8 +16,17 @@ import java.math.BigDecimal;
 public class ProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final BigDecimal MAX_PRICE = new BigDecimal("1000000000");
-    private final ProductDAO productDAO = new ProductDAO();
-    private final CategoryDAO categoryDAO = new CategoryDAO();
+    private final ProductDAO productDAO;
+    private final CategoryDAO categoryDAO;
+
+    public ProductServlet() {
+        this(new ProductDAO(), new CategoryDAO());
+    }
+
+    public ProductServlet(ProductDAO productDAO, CategoryDAO categoryDAO) {
+        this.productDAO = productDAO;
+        this.categoryDAO = categoryDAO;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

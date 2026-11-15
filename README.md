@@ -107,7 +107,7 @@ git clone https://github.com/<tai-khoan-cua-ban>/SOF309_<MÃ_LỚP>_<MSSV>_<HoTe
 
 ### 🔹 Bước 4: Viết Test Script & Tài liệu
 1. **[Y2] Kế hoạch & Kịch bản Test:** Mở thư mục `docs/` để điền đặc tả `SPECIFICATIONS.md`, kế hoạch `TEST_PLAN.md` và bảng `TEST_CASES.md`.
-2. **[Y3] Viết JUnit Test:** Viết các class test cho Controller trong `src/test/java/.../controllers/` (xem file mẫu `SampleControllerTest.java`).
+2. **[Y3] Viết JUnit Test:** `AuthControllerTest` kiểm tra đăng ký và đăng nhập. `ProductControllerTest` kiểm tra form và luồng xử lý sản phẩm. Chạy `mvn test "-Dtest=*ControllerTest"` từ thư mục dự án. Xem [nhật ký AI Tuần 2](docs/ai-logs/02_junit_script_ai.md).
 3. **[Y4] Viết Selenium UI Test:** Viết các class Page Object trong `src/test/java/.../ui/pages/` và kịch bản test trong `src/test/java/.../ui/tests/` (xem file mẫu `LoginPage.java` và `LoginTest.java`).
 4. **[Y6] Lưu minh chứng AI (Điểm A):** Ghi chép câu lệnh (prompt), code AI sinh và code bạn tự sửa vào các file trong thư mục `docs/ai-logs/`.
 
@@ -146,7 +146,8 @@ SOF309_<MÃ_LỚP>_<MSSV>_<HoTen>/
 │   │   └── resources/
 │   └── test/java/com/poly/sof309/
 │       ├── controllers/                 # [Y3] Unit Test cho Controller (Parameterized, Exception)
-│       │   └── SampleControllerTest.java
+│       │   ├── AuthControllerTest.java
+│       │   └── ProductControllerTest.java
 │       └── ui/                          # [Y4] Selenium UI Test (Page Object Model)
 │           ├── pages/                   # Các class Page Object (LoginPage.java...)
 │           │   └── LoginPage.java
