@@ -83,4 +83,55 @@ Lượt smoke test GearAstral đạt **53/53 kiểm tra HTTP** tại `localhost:
 | Phân quyền | Phiên khách và khách hàng bị chuyển hướng khi truy cập khu vực nhân viên. POST đăng ký thiếu token CSRF trả 403. |
 | Sản phẩm | Thêm, đọc, sửa, ngừng bán và mở lại. Giữ tồn kho khi sửa. Từ chối dữ liệu sai ở các biên đã ghi trong bảng. |
 
-Lượt build Tuần 1 chạy đạt hai ca JUnit mẫu. Ca Selenium mẫu đang tắt.
+Lượt build Tuần 1 chạy đạt hai ca JUnit mẫu. Ca Selenium mẫu đang có `@Disabled`.
+
+## 5. KẾT QUẢ UNIT TEST GEARASTRAL TUẦN 2
+
+| Nhóm dữ liệu | Liên quan đặc tả | Số lượt | Kết quả đã xác nhận |
+| --- | --- | --- | --- |
+| Tên đăng nhập 3/4/5/31/32/33 ký tự | §4.A, REG-02/03 | 6 | PASS Unit |
+| Mật khẩu 7/8/9/71/72/73 ký tự ASCII và 71/73 byte UTF-8 | §4.A, REG-06/07 | 8 | PASS Unit |
+| Trùng tên và trùng email | §4.A, REG-05/11 | 2 | PASS Unit, có assertThrows và HTTP 400 |
+| Lỗi DAO lưu tài khoản | §4.A | 1 | PASS Unit, HTTP 409 |
+| Đăng nhập đúng, sai và mật khẩu trống | §4.A, LOGIN-01/02/04/07 | 3 | PASS Unit |
+| Biên tên, giá, tồn và sai kiểu dữ liệu sản phẩm | §4.C, PROD-05/07/08/09 | 18 | PASS Unit |
+| Sửa sản phẩm giữ tồn, ngừng bán | §4.C, PROD-02/03 | 1 | PASS Unit, giới hạn 2 giây |
+| PROD-READ-01, chuyển kết quả tìm kiếm tới JSP | §4.C | 1 | PASS Unit |
+| **Tổng GearAstral** | Hai class AuthControllerTest và ProductControllerTest | **40** | **0 failure, 0 error, 0 skipped** |
+
+Mock DAO trả kết quả kiểm soát trong các lượt trên. Kết quả xác nhận luồng Controller và đối tượng truyền xuống DAO. Mỗi ca HTTP/UI tại bảng trước vẫn có trạng thái của tầng tương ứng. Xem [ma trận truy vết](TEST_PLAN.md#6-truy-vết-test-case-với-code) và [commit Tuần 2](https://github.com/MDK-1999/SOF309_SD21304_TS02543_VuHuynhPhucKhang/commit/214fed9474b62e9d639aa0e51c78f55e219f1624).
+
+## 6. CA MỞ RỘNG THEO NGHIỆP VỤ GEARASTRAL
+
+Mỗi giá trị phân cách bằng dấu / trong cột dữ liệu là một lượt độc lập. Giữ các trường còn lại hợp lệ. `L(n)` là n ký tự ASCII a. Ref § là mục tương ứng trong SPECIFICATIONS.md.
+
+| ID / Ref | Tầng, ưu tiên và kỹ thuật | Tiền điều kiện | Bước thực hiện và dữ liệu | Kết quả mong đợi | Trạng thái |
+| --- | --- | --- | --- | --- | --- |
+| SHOP-01 · §4.D | HTTP, P1, BVA | Có ít nhất 25 sản phẩm đang bán trong DB thử | GET /shop với page=0/1/2/100001 | Số 0 và vượt giới hạn parser đưa về 1. Trang 1 có tối đa 24 sản phẩm. Trang 2 có các sản phẩm còn lại. | Chưa chạy |
+| SHOP-02 · §4.D | HTTP, P1, EP | Có sản phẩm giá 100 và 200 | GET /shop?min=200&max=100 | Hai giá được hoán đổi, kết quả nằm trong 100–200. | Chưa chạy |
+| SHOP-03 · §4.C | HTTP, P0, EP | Có ID sản phẩm đang bán và ID đã ngừng bán | GET /product?id với ID bán/ngừng bán/0/abc/thiếu | Đang bán trả 200. Các giá trị còn lại trả 404. | Chưa chạy |
+| CART-01 · §4.D | HTTP tích hợp, P0, EP | Phiên riêng có CSRF, sản phẩm còn tồn 5 | POST /cart action=add, productId hợp lệ, qty=2. GET /cart | Giỏ có lượng 2 và tổng đúng giá hiện tại nhân 2. | Chưa chạy |
+| CART-02 · §4.D | HTTP, P1, BVA | Sản phẩm tồn 200, giỏ mới cho từng lượt | POST thêm với qty=-1/0/1/99/100/abc | Giá trị -1/0/100/abc dùng fallback 1. 1 và 99 được giữ. | Chưa chạy |
+| CART-03 · §4.D | HTTP tích hợp, P1, BVA | Sản phẩm tồn 5, giỏ có lượng 3 | POST add qty=4 rồi GET giỏ | Tổng lượng được chặn ở 5. | Chưa chạy |
+| CART-04 · §4.D | HTTP, P1, EP | Có hai dòng giỏ | POST action=remove cho một productId rồi GET giỏ | Dòng mục tiêu được xóa, dòng còn lại và tổng được cập nhật. | Chưa chạy |
+| CART-05 · §4.D | HTTP, P0, EP | ID thiếu/hết tồn/ngừng bán | POST add từng sản phẩm | 302 tới /cart?error=unavailable và giỏ không nhận sản phẩm đó. | Chưa chạy |
+| CHECKOUT-01 · §4.B/D | HTTP tích hợp, P0, EP | Giỏ còn 2 sản phẩm, tài khoản có thông tin giao hàng | POST /checkout customerName=L(1)/L(2), trường khác hợp lệ | Tên 1 ký tự trả 400. Tên 2 ký tự qua kiểm tra, sau đó kiểm tra kết quả tạo đơn và tồn kho. | Chưa chạy |
+| CHECKOUT-02 · §4.B/D | HTTP tích hợp, P0, EP | Giỏ có lượng 2, thay tồn DB xuống 1 | POST checkout với thông tin hợp lệ | HTTP 409, hiện lỗi tồn kho, giỏ còn nguyên và không tạo đơn mới. | Chưa chạy |
+| CHECKOUT-03 · §4.B | HTTP tích hợp, P0, BVA | Giỏ có hàng, họ tên/phone/email hợp lệ | Gửi shippingAddr=L(4)/L(5)/L(200)/L(201) trong từng phiên | 4 ký tự trả 400. 5/200 qua validation. 201 được cắt còn 200 trước xử lý. | Chưa chạy |
+| OWNER-01 · §4.D | HTTP tích hợp, P0, EP | Hai customer A/B, đơn của A | Đăng nhập B rồi GET /customer/orders?id của A | HTTP 404. | Chưa chạy |
+| ROLE-ADMIN-01 · §2/3 | HTTP, P0, EP | Phiên staff và admin riêng, CSRF đúng | GET /admin/categories và POST action hợp lệ với từng role | staff về dashboard?error=forbidden. admin được xử lý route. | Chưa chạy |
+| STOCK-01 · §4.E | HTTP tích hợp, P1, BVA | staff có phiên, sản phẩm tồn 5 | POST nhập quantity=0/1/100000/100001 với unitCost=100 | 0/100001 về error=invalid. 1/100000 lưu giao dịch và tăng đúng tồn tương ứng. | Chưa chạy |
+| ORDER-STATUS-01 · §4.E | HTTP tích hợp, P1, EP | staff, đơn thử tồn tại | POST action=status, status=confirmed/done/unknown | confirmed/done được xử lý theo tập trạng thái. unknown về error=status. Đọc lại DB sau mỗi lượt. | Chưa chạy |
+| CAT-01 · §4.E | HTTP tích hợp, P1, BVA | admin, CSRF hợp lệ | POST action=add catName=L(1)/L(2)/L(100)/L(101) | 1 ký tự về error=invalid. 2/100 được lưu. 101 được cắt còn 100. | Chưa chạy |
+| UI-LOGIN-01 · §4.A | UI, P0, Positive | Chrome, GearAstral chạy, tài khoản staff đúng | Nhập bằng locator loginUsername/loginPassword, bấm submit | Về /dashboard và có phiên staff. | Chưa chạy |
+| UI-LOGIN-02 · §4.A | UI, P1, Negative | User có mật khẩu đúng đã biết | Gửi mật khẩu sai rồi chờ #toast .toast-title | Hiện ĐĂNG NHẬP THẤT BẠI. | Chưa chạy |
+| UI-REGISTER-01 · §4.A | UI, P0, Positive | Tên/email mới theo runId | Điền các trường tại /register và gửi form | Về /login?success=registered, hiện thông báo tạo tài khoản. | Chưa chạy |
+| UI-PROD-01 · §4.C | UI, P0, Positive | staff, sản phẩm mới riêng | Thêm, mở sửa, đổi tên, ngừng bán và kiểm tra lại | Thông báo đúng, dữ liệu đúng, sản phẩm ngừng bán được ẩn công khai. | Chưa chạy |
+
+### 6.1. Phiếu ghi kết quả từng lượt
+
+| Mã lượt | Commit, môi trường | Dữ liệu thực tế | Expected | Actual | Trạng thái | Bằng chứng / mã lỗi |
+| --- | --- | --- | --- | --- | --- | --- |
+| ID.D01 | Điền khi chạy | Một bộ dữ liệu cụ thể | Chọn nhánh trong bảng | Điền từ quan sát | Pass / Fail / Blocked | Báo cáo, URL run hoặc ảnh |
+
+Ngày cập nhật danh mục 18/11/2026.

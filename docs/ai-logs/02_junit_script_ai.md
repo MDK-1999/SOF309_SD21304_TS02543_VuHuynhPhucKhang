@@ -28,6 +28,16 @@ Yêu cầu trong cuộc trò chuyện là “làm đi tôi mở sẵn gg trankha
 mvn test "-Dtest=*ControllerTest"
 ```
 
-Kết quả trên máy Windows với JDK 21: `BUILD SUCCESS`, 40 ca Controller, 0 failure, 0 error, 0 skipped. Lệnh `mvn test` cũng thành công và bỏ qua một ca Selenium mẫu đã có `@Disabled`.
+Kết quả trên máy Windows với JDK 21 tại phiên viết Y3: `BUILD SUCCESS`, 40 ca GearAstral, 0 failure, 0 error, 0 skipped. Lệnh `mvn test` tại phiên đó bỏ qua một ca Selenium mẫu đã có `@Disabled`.
+
+## 6. Đối chiếu bản đã đăng trên GitHub
+
+Commit `214fed9` có hai class GearAstral và giữ `SampleControllerTest` gồm hai ca từ template. Vì vậy khi chạy `mvn test "-Dtest=*ControllerTest"` trên bản GitHub sẽ có thêm hai ca mẫu. Để kiểm tra đúng 40 ca GearAstral, chạy lệnh sau.
+
+```powershell
+mvn test "-Dtest=AuthControllerTest,ProductControllerTest"
+```
+
+Mã nguồn test và phương thức được lập bảng truy vết tại [TEST_PLAN.md](../TEST_PLAN.md). Chi tiết lỗi Mockito trong lúc thiết lập được ghi tại [04_debug_logs_ai.md](04_debug_logs_ai.md).
 
 [Nhật ký thiết kế kiểm thử Tuần 1](01_test_design_ai.md).

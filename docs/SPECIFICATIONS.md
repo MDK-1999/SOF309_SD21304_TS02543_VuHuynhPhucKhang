@@ -15,7 +15,48 @@
 
 ---
 
-## 2. QUY TẮC NGHIỆP VỤ CHI TIẾT (BUSINESS RULES)
+## 2. NGƯỜI DÙNG VÀ PHÂN QUYỀN
+
+| Đối tượng | Phạm vi | Sau đăng nhập |
+| --- | --- | --- |
+| Khách | Xem cửa hàng, chi tiết, giỏ hàng, checkout, PC Builder và form tài khoản. | Chưa có phiên đăng nhập. |
+| customer | Chức năng công khai và danh sách, chi tiết đơn thuộc tài khoản mình. | `/dashboard` chuyển tới `/customer/orders`. |
+| staff | Dashboard, sản phẩm, đơn hàng, nhập kho và hóa đơn. | Dashboard nhân viên. |
+| admin | Quyền staff, quản lý danh mục, tài khoản và báo cáo. | Dashboard quản trị. |
+
+`AuthFilter` kiểm tra vai trò trên `/admin/*`, `/staff/*` và `/customer/*`. Khách vào vùng bảo vệ được chuyển tới `/login?error=session`. Người có phiên sai quyền được chuyển tới `/dashboard?error=forbidden`. Vai trò admin được phép vào vùng staff theo `User.isStaff()`.
+
+## 3. URL MÀN HÌNH VÀ ĐIỂM XỬ LÝ
+
+URL trong bảng là đường dẫn tương đối với context của ứng dụng. Jetty chạy tại `http://localhost:8080`. Nếu deploy WAR trên Tomcat cần thêm context, ví dụ `/GearAstral-SOF309`.
+
+| URL | Phương thức | Chức năng | Quyền |
+| --- | --- | --- | --- |
+| `/`, `/index.jsp` | GET | Chuyển tới cửa hàng | Công khai |
+| `/shop` | GET | Tìm, lọc, sắp xếp và phân trang linh kiện | Công khai |
+| `/product?id=...` | GET | Chi tiết sản phẩm đang bán | Công khai |
+| `/product-image?id=...` | GET | Ảnh sản phẩm | Công khai |
+| `/login` | GET, POST | Form và xử lý đăng nhập | Công khai |
+| `/register` | GET, POST | Đăng ký tài khoản customer | Công khai |
+| `/cart` | GET, POST | Xem, thêm, sửa số lượng, xóa dòng giỏ | Công khai |
+| `/checkout` | GET, POST | Thông tin giao hàng và tạo đơn COD | Công khai |
+| `/pc-builder` | GET, POST | Chọn cấu hình và đưa linh kiện vào giỏ | Công khai |
+| `/ai-chat` | POST | Tư vấn cấu hình, phụ thuộc cấu hình AI | Công khai, có CSRF và giới hạn lượt |
+| `/dashboard` | GET | Điều hướng khách hàng hoặc hiện dashboard | Có phiên |
+| `/logout` | POST | Kết thúc phiên | Có phiên |
+| `/customer/orders` | GET | Danh sách đơn và chi tiết qua `id` | customer |
+| `/staff/products` | GET, POST | Thêm, xem, sửa, ngừng bán và mở bán lại | staff, admin |
+| `/staff/stock` | GET, POST | Xem và nhập kho | staff, admin |
+| `/staff/orders` | GET, POST | Tạo đơn, cập nhật trạng thái đơn hoặc thanh toán | staff, admin |
+| `/staff/invoice` | GET | In hóa đơn | staff, admin |
+| `/admin/categories` | GET, POST | Quản lý danh mục | admin |
+| `/admin/users` | GET, POST | Quản lý tài khoản | admin |
+| `/admin/report` | GET | Báo cáo | admin |
+| `/robots.txt`, `/sitemap.xml` | GET | Thông tin lập chỉ mục | Công khai |
+
+Các route được đối chiếu với annotation `@WebServlet`, bộ lọc và JSP trong `src/main` ngày 18/11/2026.
+
+## 4. QUY TẮC NGHIỆP VỤ VÀ VALIDATION
 
 ### A. Chức năng Xác thực & Quản lý Tài khoản (Auth)
 
@@ -61,3 +102,37 @@
 * **Cập nhật (Update):** Gửi `POST /staff/products` với `action=update` và `productId` của sản phẩm tồn tại. Giữ nguyên tồn kho khi sửa. Thành công chuyển đến `/staff/products?success=update`.
 * **Ngừng bán và mở bán lại (Delete/Restore):** Sửa sản phẩm, đặt `isActive=false` để ẩn khỏi danh mục và chi tiết công khai. Bản ghi vẫn có trong danh sách nhân viên. Đặt `isActive=true` để hiển thị lại.
 * Thao tác sai dữ liệu, sai `action` hoặc cập nhật ID không tồn tại chuyển đến `/staff/products?error=invalid`.
+
+### D. Cửa hàng, giỏ hàng và đơn của khách
+
+* `/shop` nhận `q` tối đa 100 ký tự, `brand` tối đa 80 ký tự, `catId` dương, `min`/`max` từ 0 đến 1.000.000.000. Nếu min lớn hơn max, controller hoán đổi hai giá trị. Mỗi trang có tối đa 24 sản phẩm. Trang yêu cầu lớn hơn tổng số trang được đưa về trang cuối.
+* Giỏ được lưu theo session. `/cart` nhận `action`, `productId` và `qty`. Giá trị qty không phải số nguyên 1–99 được đưa về 1. Lượng thực tế được chặn theo tồn kho và 99. Sản phẩm thiếu, ngừng bán hoặc hết tồn chuyển tới `/cart?error=unavailable`.
+* `action=remove` xóa dòng theo productId rồi chuyển về giỏ. Giỏ trống hiển thị tổng bằng 0.
+* Checkout nhận `customerName`, `customerPhone`, `customerEmail`, `shippingAddr`, `notes`. Các trường giao hàng có thể lấy từ thông tin tài khoản khi yêu cầu gửi rỗng.
+* Trước khi tạo đơn, controller đọc lại giá và tồn kho hiện tại. `OrderDAO.createWithItems` thực hiện lưu đơn và cập nhật kho theo giao dịch. Kết quả thất bại cần được kiểm tra cả trạng thái DB và giỏ.
+* Chi tiết `/customer/orders?id=...` trả 404 cho đơn không tồn tại hoặc đơn không thuộc customer hiện tại.
+
+### E. Nhập kho và quản lý đơn
+
+* Nhập kho nhận `productId` dương và `quantity` từ 1 đến 100.000. `unitCost` được đọc trong khoảng 0–1.000.000.000. Giá trị sai được đưa về 0 theo fallback hiện tại. `supplier` cắt còn 150 ký tự, `note` còn 500 ký tự.
+* Trạng thái đơn hợp lệ gồm `pending`, `confirmed`, `processing`, `shipping`, `done`, `cancelled`. Controller kiểm tra tập giá trị, chưa áp dụng sơ đồ giới hạn bước chuyển trạng thái.
+* Trạng thái thanh toán hợp lệ gồm `unpaid`, `paid`, `refunded`. Web checkout tạo COD. Đơn tạo trong khu vực nhân viên có thêm giá trị phương thức `qr` theo mã hiện tại.
+* Danh mục nhận `catName` dài ít nhất 2 và cắt tối đa 100 ký tự. `description` cắt còn 500 ký tự, `icon` còn 50. Các action được hỗ trợ là `add` và `update`.
+
+## 5. PHIÊN, CSRF VÀ DỮ LIỆU KIỂM THỬ
+
+Mỗi POST lấy `_csrf` từ form cùng phiên hoặc header `X-CSRF-Token`. Thiếu hoặc sai token trả HTTP 403 trước khi Servlet ghi dữ liệu. Đăng nhập thành công đổi session ID. Đăng xuất hủy phiên.
+
+Fixture và cách ghi kết quả được mô tả trong [TEST_PLAN.md](TEST_PLAN.md). Các kiểm thử DAO dùng mock chỉ xác nhận hợp đồng gọi và phản hồi Controller. Kiểm tra khóa ngoại, giao dịch trừ kho và quyền sở hữu cần môi trường H2 hoặc SQL Server riêng.
+
+## 6. TRUY VẾT VÀ TRẠNG THÁI NGHIỆM THU
+
+| Phạm vi | Bằng chứng | Trạng thái |
+| --- | --- | --- |
+| Đăng ký, đăng nhập | `AuthControllerTest`, 20 lượt tham số và test đơn | Đã chạy đạt |
+| Form và xử lý sản phẩm | `ProductControllerTest`, 20 lượt | Đã chạy đạt |
+| Controller trên GitHub Actions | Commit `214fed9`, [run Tuần 2](https://github.com/MDK-1999/SOF309_SD21304_TS02543_VuHuynhPhucKhang/actions/runs/43726837327) | Workflow thành công |
+| HTTP toàn web | Lượt smoke ngày 07/11 được lưu trong Test Cases | Bằng chứng lịch sử, phạm vi theo từng dòng |
+| Selenium, dữ liệu DB mở rộng, AI | Các ca thiết kế và nhật ký 03 | Chờ thực thi |
+
+Mỗi test case tham chiếu mục nghiệp vụ, bộ dữ liệu và tầng kiểm tra trong [TEST_CASES.md](TEST_CASES.md). Ngày cập nhật tài liệu 18/11/2026.

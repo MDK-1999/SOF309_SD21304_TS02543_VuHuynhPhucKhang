@@ -1,30 +1,15 @@
-# THƯ MỤC MINH CHỨNG SỬ DỤNG AI (Y6 - ĐIỂM A)
+# Minh chứng sử dụng AI cho GearAstral
 
-Sinh viên lưu các file ghi chép quá trình làm việc với AI vào thư mục này. Mỗi file tương ứng với một giai đoạn:
-* `01_test_design_ai.md`: Dùng AI + RAG sinh Test Plan & Test Case.
-* `02_junit_script_ai.md`: Dùng AI hỗ trợ viết Unit Test cho Controller.
-* `03_selenium_pom_ai.md`: Dùng Cursor AI / GenAI sinh Page Object Model.
-* `04_debug_logs_ai.md`: Nhật ký đưa stack trace lỗi cho AI phân tích và sửa.
-* `05_github_actions_ai.md`: Dùng AI viết workflow CI/CD.
-* `06_code_review_ai.md`: AI review và đề xuất tối ưu mã nguồn test.
+**Vũ Huỳnh Phúc Khang · TS02543 · SD21304 · SOF309**
 
----
+| File | Nội dung | Trạng thái |
+| --- | --- | --- |
+| [01_test_design_ai.md](01_test_design_ai.md) | Nạp đặc tả và mã nguồn, sinh Test Plan và Test Case bằng EP/BVA, đối chiếu route và dữ liệu. | Đã có tài liệu và phiên cập nhật 18/11. |
+| [02_junit_script_ai.md](02_junit_script_ai.md) | Viết hai class Controller GearAstral, tham số biên, ngoại lệ và timeout. | 40 ca GearAstral đã đạt. |
+| [03_selenium_pom_ai.md](03_selenium_pom_ai.md) | Đối chiếu locator JSP và thiết kế LoginPage, RegisterPage, ProductPage. | Thiết kế đã ghi. Script mẫu cần tích hợp và chạy Y4. |
+| [04_debug_logs_ai.md](04_debug_logs_ai.md) | Phân tích lỗi publish, trùng cổng, thiếu JSTL, Mockito và Git. | Có nguyên nhân, cách xử lý và tiêu chí chạy lại. |
+| [05_github_actions_ai.md](05_github_actions_ai.md) | Đối chiếu workflow, lệnh Maven, artifact và kết quả theo SHA. | CI commit Tuần 2 đã đạt. |
 
-### MẪU GHI CHÉP CHUẨN (CHO TỪNG FILE):
-```markdown
-# Nhật ký AI: [Tên nội dung thực hiện]
+Mỗi nhật ký ghi yêu cầu, ngữ cảnh, đầu ra và kết quả thực tế. Các ca đang thiết kế hoặc thiếu môi trường được ghi rõ tiến độ. Sinh viên bổ sung phần tự sửa và minh chứng khi thực hiện, theo mẫu giảng viên trong [hướng dẫn môn học](../HUONG_DAN_CHI_TIET_6_TUAN.md).
 
-## 1. Ngữ cảnh & Mục tiêu
-- Cần làm gì, áp dụng cho chức năng nào?
-
-## 2. Câu lệnh đã gửi cho AI (Prompt)
-> "Nội dung prompt bạn đã gửi..."
-
-## 3. Kết quả do AI sinh ra (Raw Output)
-[Dán kết quả gốc của AI vào đây]
-
-## 4. Chỉnh sửa của Sinh viên & Lý do sửa
-- Những điểm AI làm sai hoặc thiếu: ...
-- Code / Tài liệu hoàn thiện sau khi bạn sửa: ...
-```
-
+Tài liệu liên quan gồm [đặc tả](../SPECIFICATIONS.md), [kế hoạch](../TEST_PLAN.md) và [test case](../TEST_CASES.md). Nhật ký code review 06 được bổ sung khi thực hiện giai đoạn review tương ứng.
