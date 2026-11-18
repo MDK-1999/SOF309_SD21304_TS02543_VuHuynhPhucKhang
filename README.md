@@ -98,4 +98,4 @@ SOF309_SD21304_TS02543_VuHuynhPhucKhang/
 | [Commit Unit Test Tuần 2](https://github.com/MDK-1999/SOF309_SD21304_TS02543_VuHuynhPhucKhang/commit/214fed9474b62e9d639aa0e51c78f55e219f1624) | Code đã đăng lên main. |
 | [CI của commit Tuần 2](https://github.com/MDK-1999/SOF309_SD21304_TS02543_VuHuynhPhucKhang/actions/runs/43726837327) | Workflow đã thành công. |
 
-Ngày đối chiếu bố cục 18/11/2026. Repo Thảo Nguyên được dùng làm tham khảo cách tổ chức tài liệu. Nghiệp vụ và kết quả kiểm thử trong repo này thuộc GearAstral.
+Ngày cập nhật 18/11/2026.

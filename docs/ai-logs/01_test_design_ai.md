@@ -4,7 +4,7 @@
 
 ## Ngữ cảnh
 
-Đưa [đặc tả GearAstral](../SPECIFICATIONS.md) vào ngữ cảnh của Codex. Đối chiếu với `RegisterServlet`, `LoginServlet`, `ProductServlet`, `AuthFilter`, `SecurityFilter`, DAO và biểu mẫu JSP.
+Đối chiếu [đặc tả GearAstral](../SPECIFICATIONS.md) với `RegisterServlet`, `LoginServlet`, `ProductServlet`, `AuthFilter`, `SecurityFilter`, DAO và biểu mẫu JSP để thiết kế kiểm thử.
 
 ## Prompt
 
@@ -16,13 +16,9 @@
 - Bổ sung biên 72 byte UTF-8 vì GearAstral dùng bcrypt. Ghi rõ khi sai dữ liệu sản phẩm, ứng dụng chuyển hướng kèm tham số lỗi.
 - Dùng thao tác Ngừng bán cho ca xóa logic. Kiểm tra cả bảng nhân viên, danh mục và chi tiết công khai.
 
-## Phiên đối chiếu bố cục ngày 18/11/2026
+## Cập nhật thiết kế kiểm thử ngày 18/11/2026
 
-**Yêu cầu của người dùng**
-
-> Bạn vào link này và làm lại GitHub cho tôi dựa vào GearAstral mà làm, link kia chỉ là mẫu.
-
-Đầu vào gồm repository tham khảo Thảo Nguyên, tài liệu GearAstral và mã nguồn `AuthFilter`, `SecurityFilter`, `ShopServlet`, `CartServlet`, `CustomerOrderServlet`, `OrderServlet`, `StockServlet`, `CategoryServlet`.
+Phạm vi đối chiếu gồm `AuthFilter`, `SecurityFilter`, `ShopServlet`, `CartServlet`, `CustomerOrderServlet`, `OrderServlet`, `StockServlet` và `CategoryServlet` của GearAstral.
 
 ### Đầu ra
 
@@ -38,4 +34,4 @@ GearAstral dùng Java Servlet/JSP, bcrypt, H2 demo hoặc SQL Server. Biên user
 
 ### Phần người học rà soát
 
-Người học cần xác nhận fixture DB, chạy các ca mở rộng và ghi Actual/Evidence sau thực thi. Nhật ký này ghi phần AI đã xử lý trong phiên, cùng các điều kiện còn cần nghiệm thu.
+Xác nhận fixture DB, chạy các ca mở rộng và ghi Actual/Evidence sau thực thi.

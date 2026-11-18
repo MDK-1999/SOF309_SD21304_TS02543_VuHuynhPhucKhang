@@ -4,11 +4,11 @@
 
 ## 1. Ngữ cảnh và mục tiêu
 
-Codex đọc [đặc tả](../SPECIFICATIONS.md), [test case Y2](../TEST_CASES.md), `RegisterServlet`, `LoginServlet`, `ProductServlet` và `InputValidator`. Mục tiêu là kiểm tra các nhánh xử lý tại Servlet và đối chiếu dữ liệu được gửi xuống DAO.
+Kiểm tra các nhánh xử lý tại Servlet và đối chiếu dữ liệu được gửi xuống DAO dựa trên [đặc tả](../SPECIFICATIONS.md), [test case Y2](../TEST_CASES.md), `RegisterServlet`, `LoginServlet`, `ProductServlet` và `InputValidator`.
 
-## 2. Prompt
+## 2. Kỹ thuật kiểm thử
 
-Yêu cầu trong cuộc trò chuyện là “làm đi tôi mở sẵn gg trankhang có github rồi đó”, kèm ảnh hướng dẫn Tuần 2. Nội dung cần thực hiện theo ảnh gồm viết unit test JUnit 5 cho Controller, dùng `@ParameterizedTest` với `@CsvSource` để kiểm tra biên form, dùng `assertThrows()` cho ngoại lệ nghiệp vụ và đặt `@Timeout` 2 giây cho một luồng xử lý. Sau đó chạy Maven và tạo commit trên GitHub.
+Unit Test Controller sử dụng JUnit 5, `@ParameterizedTest` với `@CsvSource` để kiểm tra biên form, `assertThrows()` cho ngoại lệ nghiệp vụ và `@Timeout` 2 giây cho luồng cập nhật sản phẩm.
 
 ## 3. Đầu ra do AI tạo
 

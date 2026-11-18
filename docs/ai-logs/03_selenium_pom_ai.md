@@ -4,11 +4,11 @@
 
 Dự án GearAstral của Vũ Huỳnh Phúc Khang, TS02543, SD21304. Ngày đối chiếu 18/11/2026. Đầu vào gồm các JSP đăng nhập, đăng ký, sản phẩm, lớp LoginPage và LoginTest của template.
 
-Mục tiêu của phiên này là xác định cấu trúc và locator cần dùng cho Y4, ghi tiến độ chính xác khi sắp xếp repo theo bố cục mẫu.
+Mục tiêu là xác định cấu trúc Page Object và locator cần dùng cho Y4.
 
-## 2. Yêu cầu đầu vào
+## 2. Định hướng kiểm thử
 
-> Làm lại GitHub dựa vào GearAstral, repository được gửi chỉ là mẫu.
+Thiết kế Page Object cho đăng nhập, đăng ký và quản lý sản phẩm. Mỗi page quản lý locator và thao tác tương ứng trên JSP GearAstral. Kết quả cần được chờ bằng WebDriverWait.
 
 ## 3. Kết quả phân tích từ JSP
 
@@ -29,4 +29,4 @@ Toast đăng nhập dùng `#toast .toast-title` và `#toast .toast-msg`. Form ch
 
 ## 5. Cách nghiệm thu dự kiến
 
-Khởi động H2 demo, chạy UI trên Chrome với đúng context, xác nhận dữ liệu sau thao tác và lưu kết quả. Báo cáo mỗi ca phải có trạng thái thực tế. Nhật ký này là đầu ra thiết kế của phiên đối chiếu.
+Khởi động H2 demo, chạy UI trên Chrome với đúng context, xác nhận dữ liệu sau thao tác và lưu kết quả. Báo cáo mỗi ca ghi trạng thái thực tế.

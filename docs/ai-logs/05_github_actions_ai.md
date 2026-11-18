@@ -1,8 +1,8 @@
 # 05 – Nhật ký AI kiểm tra GitHub Actions GearAstral
 
-## 1. Ngữ cảnh và yêu cầu
+## 1. Ngữ cảnh
 
-Repo `MDK-1999/SOF309_SD21304_TS02543_VuHuynhPhucKhang` dùng workflow từ template môn SOF309. Người dùng yêu cầu kiểm tra code trước và sau khi đăng GitHub, đối chiếu kết quả với bài Tuần 2.
+Repo `MDK-1999/SOF309_SD21304_TS02543_VuHuynhPhucKhang` dùng workflow từ template môn SOF309 để chạy kiểm thử tự động sau mỗi lần cập nhật mã nguồn.
 
 ## 2. Đầu vào và đầu ra
 
@@ -26,8 +26,8 @@ Commit `214fed9474b62e9d639aa0e51c78f55e219f1624` đã lên main với 11 file c
 
 ## 5. Kiểm tra mỗi lần cập nhật
 
-Xác nhận SHA trên main, mở run có cùng SHA, đọc số failure/error/skipped và tải artifact khi còn thời hạn lưu. Các run bổ sung sau lần chỉnh bố cục cần được kiểm tra theo đúng commit mới.
+Xác nhận SHA trên main, mở run có cùng SHA, đọc số failure/error/skipped và tải artifact khi còn thời hạn lưu.
 
-## 6. Kiểm tra bản chỉnh bố cục ngày 18/11/2026
+## 6. Kết quả kiểm tra ngày 18/11/2026
 
 Lệnh `mvn clean verify` trên máy đã đạt. Hai class GearAstral chạy 40 ca đạt, hai ca mẫu cũng đạt và một ca Selenium mẫu bị bỏ qua. Tài liệu bổ sung URL, vai trò, fixture, truy vết và ca mở rộng dựa trên mã nguồn GearAstral. POM bổ sung JSTL API để WAR có thư viện phục vụ JSP.
