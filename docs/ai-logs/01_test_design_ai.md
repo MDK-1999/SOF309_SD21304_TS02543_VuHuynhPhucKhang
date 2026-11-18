@@ -8,13 +8,13 @@
 - **Vai trò yêu cầu AI:** QA Lead.
 - **Đầu vào:** [SPECIFICATIONS.md](../SPECIFICATIONS.md) hiện tại trong repository; đối chiếu Servlet, Filter, Service, DAO, JSP và `InputValidator` khi cần xác định validation hoặc phản hồi.
 - **Đầu ra:** Nội dung thiết kế trong [TEST_PLAN.md](../TEST_PLAN.md) và [TEST_CASES.md](../TEST_CASES.md); nhật ký này ghi lại cơ sở thiết kế và những điểm cần rà soát.
-- **Phạm vi phiên này:** Cập nhật nhật ký thiết kế theo GearAstral và đối chiếu các tài liệu hiện có. Phân biệt ca được thiết kế, kết quả HTTP ghi nhận trước đó và 40 lượt Unit Test tuần 2 đã có; không ghi Pass cho các ca HTTP/UI chưa thực thi.
+- **Phạm vi phiên này:** Thiết kế tài liệu; chưa viết/chạy bộ test tự động mới và chưa có kết quả Pass/Fail thực nghiệm.
 
 ## 2. Câu lệnh prompt thiết kế kiểm thử
 
 Prompt thiết kế được chuẩn hóa để sử dụng với đặc tả GearAstral:
 
-> Bạn là QA Lead. Dựa trên nội dung SPECIFICATIONS.md của GearAstral, hãy thiết kế Test Plan và bộ Test Case cho Controller, Service, Filter, kiểm thử tích hợp và UI. Áp dụng Phân vùng tương đương (EP) và Phân tích giá trị biên (BVA). Bao phủ đăng ký, đăng nhập, đăng xuất, session, CSRF, phân quyền customer/staff/admin, quản lý sản phẩm, danh mục công khai, giỏ hàng, đặt hàng COD, quyền sở hữu đơn, nhập kho và cập nhật trạng thái đơn/thanh toán. Đưa quản lý tài khoản, báo cáo, hóa đơn, PC Builder và tư vấn cấu hình vào kế hoạch; chỉ ghi ca chi tiết khi xác định đủ dữ liệu và kết quả mong đợi. Với mỗi ca, ghi ID, tầng kiểm thử, ưu tiên, tiền điều kiện, bước, dữ liệu, expected và trạng thái; khi có nhiều dataset thì ghi kết quả từng lượt riêng. Dùng đúng URL và tên trường từ mã nguồn, phân biệt validation HTML với máy chủ, phân biệt cắt chuỗi/fallback với từ chối dữ liệu. Ghi rõ môi trường, fixture, tiêu chí vào/ra, quản lý lỗi, bằng chứng và truy vết. Không tự chuyển yêu cầu GAP thành hành vi đã triển khai hoặc ghi Pass khi chưa chạy. Lưu tài liệu tương ứng vào docs/TEST_PLAN.md và docs/TEST_CASES.md.
+> Bạn là QA Lead. Dưới đây là đặc tả nghiệp vụ dự án Web của tôi: SPECIFICATIONS.md. Hãy áp dụng kỹ thuật Phân vùng tương đương và Phân tích giá trị biên để thiết kế Test Plan và Bộ Test Case chi tiết cho Controller và UI lần lượt vào TEST_PLAN.md và TEST_CASES.md sau đó lưu câu lệnh prompt vào docs/ai-logs/01_test_design_ai.md.
 
 ## 3. Cách xử lý và kết quả AI tạo
 
