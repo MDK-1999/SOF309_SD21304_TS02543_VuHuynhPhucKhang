@@ -1,54 +1,34 @@
 package com.poly.sof309.ui.tests;
 
 import com.poly.sof309.ui.pages.LoginPage;
-import org.junit.jupiter.api.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import java.time.Duration;
+import com.poly.sof309.ui.pages.ProductPage;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-/**
- * =========================================================================
- * [Y4] KỊCH BẢN CHẠY SELENIUM TEST TRÊN TRÌNH DUYỆT THỰC TẾ
- * Hỗ trợ cả chế độ có giao diện (Local) và chế độ Headless (GitHub Actions).
- * =========================================================================
- */
-public class LoginTest {
-    private WebDriver driver;
-    private LoginPage loginPage;
-    private final String BASE_URL = "http://localhost:8080/login"; // URL web của sinh viên
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    @BeforeEach
-    public void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        // Kiểm tra nếu đang chạy trên CI/CD GitHub Actions thì tự bật Headless
-        if (Boolean.parseBoolean(System.getenv("CI"))) {
-            options.addArguments("--headless=new");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
-        }
-        
-        driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.manage().window().maximize();
-        loginPage = new LoginPage(driver);
-    }
+class LoginTest extends UiTestSupport {
+    @Test
+    @DisplayName("UI-LOGIN-01: Nhân viên đăng nhập và mở trang sản phẩm")
+    void staffCanLoginAndManageProducts() {
+        LoginPage login = new LoginPage(driver, baseUrl);
+        login.open();
+        login.login(staffUser, staffPassword);
 
-    @AfterEach
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        assertEquals(baseUrl + "/dashboard", login.waitForUrl("/dashboard"));
+        ProductPage products = new ProductPage(driver, baseUrl);
+        products.open();
+        assertEquals(baseUrl + "/staff/products", products.waitForUrl("/staff/products"));
     }
 
     @Test
-    @DisplayName("Test giao diện đăng nhập thành công")
-    @Disabled("Bỏ comment @Disabled khi đã khởi động web ở local để chạy thật")
-    public void testLoginSuccessUI() {
-        driver.get(BASE_URL);
-        loginPage.login("admin", "123");
-        Assertions.assertTrue(driver.getCurrentUrl().contains("/home") || driver.getCurrentUrl().contains("/dashboard"),
-                "Sau khi đăng nhập thành công phải chuyển về trang chủ");
+    @DisplayName("UI-LOGIN-02: Mật khẩu sai hiển thị thông báo")
+    void wrongPasswordShowsError() {
+        LoginPage login = new LoginPage(driver, baseUrl);
+        login.open();
+        login.login(staffUser, "Wrong" + runId());
+
+        assertEquals("ĐĂNG NHẬP THẤT BẠI", login.messageTitle());
+        assertEquals(baseUrl + "/login", login.waitForUrl("/login"));
     }
 }
-

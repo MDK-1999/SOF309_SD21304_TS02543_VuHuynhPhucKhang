@@ -11,7 +11,7 @@
 - **Nhật ký thiết kế** [01_test_design_ai.md](ai-logs/01_test_design_ai.md).
 - **Mục tiêu** Xác minh validation và phản hồi tại Controller/Service/Filter, quyền truy cập, tính đúng của giá và tồn kho, quyền sở hữu đơn hàng và luồng thao tác trên trình duyệt.
 
-Hai class `AuthControllerTest` và `ProductControllerTest` đã chạy 40 ca đạt. Các ca HTTP có kết quả lịch sử theo từng dòng trong Test Cases. Phần Selenium hiện có khung mẫu với `@Disabled`. Kiểm thử UI và các giao dịch tích hợp mở rộng cần được thực thi theo kế hoạch này.
+Hai class `AuthControllerTest` và `ProductControllerTest` đã chạy 40 ca đạt. Các ca HTTP có kết quả lịch sử theo từng dòng trong Test Cases. Bộ Selenium Tuần 3 chạy riêng bằng `mvn -Pui test` sau khi khởi động GearAstral H2 demo. Lần chạy 22/11/2026 trên Chrome đạt 5/5 ca, với kết quả từng ca trong Test Cases.
 
 ## 2. Phạm vi
 
@@ -193,7 +193,7 @@ mvn test "-Dtest=*ControllerTest"
 mvn clean verify
 ```
 
-Lệnh đầu chọn 40 ca GearAstral. Lệnh wildcard chạy thêm 2 ca SampleControllerTest. Lệnh đầy đủ phát hiện tổng cộng 43 ca, gồm 1 ca Selenium mẫu đang bị bỏ qua.
+Lệnh đầu chọn 40 ca GearAstral. Lệnh wildcard chạy thêm 2 ca SampleControllerTest. Lệnh `mvn test` chạy 42 ca JUnit; profile `ui` chạy các ca Selenium.
 
 Lượt build đã xác nhận ngày 18/11/2026 có 42 ca chạy đạt, 0 failure, 0 error và 1 skipped. Đây là kết quả của bộ test hiện có. Các ca UI và tích hợp mở rộng được ghi kết quả sau khi thực thi.
 
@@ -214,7 +214,7 @@ Lượt build đã xác nhận ngày 18/11/2026 có 42 ca chạy đạt, 0 failu
 | Đặc tả | Nhóm ca trong TEST_CASES.md | Bộ kiểm thử hoặc bước thực hiện |
 | --- | --- | --- |
 | §2, §3, §5 – Quyền, route, CSRF | PERM-01–04, ROLE-ADMIN-01 | Ca HTTP hiện có và Filter Test cần bổ sung |
-| §4.A – Đăng ký | REG-01–13 | AuthControllerTest, các ca HTTP và UI-REGISTER-01 |
+| §4.A – Đăng ký | REG-01–13 | AuthControllerTest, các ca HTTP và UI-REGISTER-01/02 |
 | §4.A – Đăng nhập, phiên | LOGIN-01–07 | AuthControllerTest, UI-LOGIN-01/02 |
 | §4.C – Sản phẩm | PROD-01–12, PROD-READ-01 | ProductControllerTest, UI-PROD-01 |
 | §4.D – Danh mục công khai | SHOP-01–03 | HTTP và UI tìm kiếm, lọc, phân trang |
