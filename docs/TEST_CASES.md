@@ -123,11 +123,10 @@ Mỗi giá trị phân cách bằng dấu / trong cột dữ liệu là một l�
 | STOCK-01 · §4.E | HTTP tích hợp, P1, BVA | staff có phiên, sản phẩm tồn 5 | POST nhập quantity=0/1/100000/100001 với unitCost=100 | 0/100001 về error=invalid. 1/100000 lưu giao dịch và tăng đúng tồn tương ứng. | Chưa chạy |
 | ORDER-STATUS-01 · §4.E | HTTP tích hợp, P1, EP | staff, đơn thử tồn tại | POST action=status, status=confirmed/done/unknown | confirmed/done được xử lý theo tập trạng thái. unknown về error=status. Đọc lại DB sau mỗi lượt. | Chưa chạy |
 | CAT-01 · §4.E | HTTP tích hợp, P1, BVA | admin, CSRF hợp lệ | POST action=add catName=L(1)/L(2)/L(100)/L(101) | 1 ký tự về error=invalid. 2/100 được lưu. 101 được cắt còn 100. | Chưa chạy |
-| UI-LOGIN-01 · §4.A | UI, P0, Positive | Chrome, GearAstral chạy, tài khoản staff đúng | Điền form đăng nhập rồi mở trang quản lý sản phẩm. | Về /dashboard và truy cập được /staff/products. | **PASS (Chrome, 22/11/2026)** |
-| UI-LOGIN-02 · §4.A | UI, P1, Negative | Có tài khoản staff | Nhập sai mật khẩu rồi quan sát thông báo. | Hiện ĐĂNG NHẬP THẤT BẠI và ở lại /login. | **PASS (Chrome, 22/11/2026)** |
-| UI-REGISTER-01 · §4.A | UI, P0, Positive | Tên/email mới theo runId | Điền form tại /register, sau đó đăng nhập bằng tài khoản vừa tạo. | Về /login?success=registered, có thông báo thành công. Đăng nhập vào được /customer/orders. | **PASS (Chrome, 22/11/2026)** |
-| UI-REGISTER-02 · §4.A | UI, P1, Negative | Tên/email mới theo runId | Gửi form với trường xác nhận khác mật khẩu. | Ở lại /register và thấy thông báo mật khẩu xác nhận không khớp. | **PASS (Chrome, 22/11/2026)** |
-| UI-PROD-01 · §4.C | UI, P0, Positive | staff, danh mục SSD, tên sản phẩm mới | Thêm sản phẩm, đọc trang chi tiết, hủy một lần chỉnh sửa, đổi tên và giá rồi ngừng bán. | Thấy thông báo sau khi lưu, giữ đúng tồn kho, thao tác hủy giữ tên cũ. Trang chi tiết ngừng bán trả 404. | **PASS (Chrome, 22/11/2026)** |
+| UI-LOGIN-01 · §4.A | UI, P0, Positive | Chrome, GearAstral chạy, tài khoản staff đúng | Nhập bằng locator loginUsername/loginPassword, bấm submit | Về /dashboard và có phiên staff. | Chưa chạy |
+| UI-LOGIN-02 · §4.A | UI, P1, Negative | User có mật khẩu đúng đã biết | Gửi mật khẩu sai rồi chờ #toast .toast-title | Hiện ĐĂNG NHẬP THẤT BẠI. | Chưa chạy |
+| UI-REGISTER-01 · §4.A | UI, P0, Positive | Tên/email mới theo runId | Điền các trường tại /register và gửi form | Về /login?success=registered, hiện thông báo tạo tài khoản. | Chưa chạy |
+| UI-PROD-01 · §4.C | UI, P0, Positive | staff, sản phẩm mới riêng | Thêm, mở sửa, đổi tên, ngừng bán và kiểm tra lại | Thông báo đúng, dữ liệu đúng, sản phẩm ngừng bán được ẩn công khai. | Chưa chạy |
 
 ### 6.1. Phiếu ghi kết quả từng lượt
 

@@ -18,7 +18,7 @@
             <button type="submit">🔍</button>
           </div>
         </form>
-        <button id="addProductButton" class="btn btn-primary btn-sm" type="button">+ Thêm sản phẩm</button>
+        <button class="btn btn-primary btn-sm" onclick="showModal('addModal')">+ Thêm sản phẩm</button>
       </div>
     </div>
     <div class="content fade-in">
@@ -38,7 +38,7 @@
               <c:forEach var="p" items="${products}" varStatus="st">
               <tr data-id="${p.productId}" data-catid="${p.catId}" data-name="${fn:escapeXml(p.productName)}"
                   data-brand="${fn:escapeXml(p.brand)}" data-model="${fn:escapeXml(p.model)}" data-price="${p.price}"
-                  data-specs="${fn:escapeXml(p.specs)}" data-desc="${fn:escapeXml(p.description)}" data-active="${p.active}" data-stock="${p.stockQty}">
+                  data-specs="${fn:escapeXml(p.specs)}" data-desc="${fn:escapeXml(p.description)}" data-active="${p.active}">
                 <td class="text-sub">${st.index+1}</td>
                 <td><strong><c:out value="${p.productName}"/></strong><br/><small class="text-sub"><c:out value="${p.model}"/></small></td>
                 <td><c:out value="${p.catName}"/></td>
@@ -145,6 +145,6 @@ function openAddModal(){
   document.getElementById('activeGroup').style.display='none';
   showModal('addModal');
 }
-document.getElementById('addProductButton').addEventListener('click', openAddModal);
+document.querySelector('.btn-primary.btn-sm').onclick=openAddModal;
 </script>
 </body></html>

@@ -3,33 +3,6 @@
 > Giảng viên hướng dẫn: **ThS. Trần Quang Bình (binhtq7 - Thầy Mười Giáo)**  
 > 📖 [Xem Cẩm nang hướng dẫn chi tiết từng tuần (Tuần 1 đến Tuần 6)](./docs/HUONG_DAN_CHI_TIET_6_TUAN.md)
 
-## Chạy GearAstral trên máy
-
-Cần JDK 17 trở lên và Maven. Mở terminal tại thư mục có `pom.xml` và chạy:
-
-```powershell
-mvn -Pdemo jetty:run
-```
-
-Mở [http://localhost:8080](http://localhost:8080). Bản demo có ba linh kiện mẫu để tìm kiếm, thêm vào giỏ và đặt hàng COD. Đăng ký và đăng nhập bằng tài khoản khách để xem lại đơn. Đăng nhập bằng tài khoản mẫu `demostaff` / `GearDemo123` để quản lý sản phẩm và đơn hàng.
-
-Lệnh trên chạy Jetty tại máy và tự tạo dữ liệu H2 trong bộ nhớ. Dữ liệu demo được tạo lại sau mỗi lần dừng và chạy lại. Dùng `Ctrl + C` để dừng.
-
-## Tuần 3 · Chạy Selenium trên Chrome
-
-Giữ GearAstral chạy bằng lệnh ở trên. Mở terminal thứ hai tại thư mục có `pom.xml`, cài sẵn Google Chrome và chạy:
-
-```powershell
-mvn -Pui test
-```
-
-Chrome mở cửa sổ riêng cho từng ca và tự đóng khi xong. Bộ test dùng tài khoản staff mẫu, tự tạo tài khoản khách và sản phẩm có tên riêng trên H2 demo. Chạy lại Jetty để đặt lại dữ liệu.
-
-- `mvn test` tiếp tục chạy JUnit controller mà không cần bật web.
-- Nếu web chạy ở cổng khác, truyền URL gốc, ví dụ `mvn -Pui test "-Dgearastral.ui.baseUrl=http://127.0.0.1:8081"`.
-- Dùng `"-Dgearastral.ui.headless=true"` để chạy Chrome không hiện cửa sổ. Nếu cần chỉ định ChromeDriver đã tải, dùng `"-Dwebdriver.chrome.driver=C:\duong-dan\chromedriver.exe"`.
-- Kết quả từng lớp nằm trong `target/surefire-reports/`. Xem [nhật ký Tuần 3](docs/ai-logs/03_selenium_pom_ai.md) để đối chiếu các ca với Page Object.
-
 ---
 
 ## 📌 PHẦN I. SƠ ĐỒ LUỒNG THỰC HIỆN (TIMELINE FLOW)
